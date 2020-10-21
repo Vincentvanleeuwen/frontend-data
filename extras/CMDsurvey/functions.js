@@ -1,14 +1,39 @@
 let incorrectData = [];
 let correctData = [];
 let colorColumn = 'oogKleur';
+const button = document.querySelectorAll('button');
+let boxes = document.querySelectorAll('box');
 // or 'lievelingskleur'!
 
 fetch("data.json")
 .then(response => response.json())
-.then(json => cleanData(json, colorColumn));
+.then(json => {
+
+  button.forEach(button => button.addEventListener('click', () => {
+
+
+    if (button.innerText === 'Eye color') {
+      colorColumn = 'oogKleur';
+    } else {
+      colorColumn = 'lievelingskleur';
+    }
+
+    cleanData(json, colorColumn);
+  }));
+
+
+
+});
 
 cleanData = (json, colorColumn) => {
 
+
+  document.querySelectorAll('.box').forEach(e => e.remove());
+  // while(boxes[0]) { boxes[0].parentNode.removeChild(boxes[0])} //Delete all boxes
+  incorrectData = [];
+  correctData = [];
+
+  console.log(colorColumn);
   let colorData = json.map(entry => entry[colorColumn]
                           .toUpperCase()
                           .replace(/\s/g, "") // Delete all spaces
