@@ -36,21 +36,7 @@ cleanData = (json) => {
   console.log('correct data:', correctData);
 
 
-  addLastToFirst(correctData);
-
-};
-
-function addLastToFirst(data){
-
-
-  let lastItem = data.pop();
-  data.unshift(lastItem);
-
-  while(document.body.firstChild) {
-    document.body.removeChild(document.body.firstChild);
-  }
-
-  data.forEach(color => {
+  correctData.forEach(color => {
     var node = document.createElement("DIV");
     var textNode = document.createTextNode("" + color + "");
     node.classList.add("box");
@@ -59,10 +45,7 @@ function addLastToFirst(data){
     document.body.appendChild(node);
   });
 
-  setInterval(addLastToFirst, 5000);
-}
-
-
+};
 
 componentToHex = (c) => {
   var hex = c.toString(16);
