@@ -1,0 +1,20 @@
+{
+  "name": "functional-programming",
+  "version": "1.0.0",
+  "description": "Assignment CMD Tech-Track",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vincentvanleeuwen/functional-programming.git"
+  },
+  "author": "Vincent van Leeuwen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vincentvanleeuwen/functional-programming/issues"
+  },
+  "homepage": "https://github.com/Vincentvanleeuwen/functional-programming#readme",
+  "dependencies": {}
+}
