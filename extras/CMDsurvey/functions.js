@@ -1,16 +1,14 @@
 let incorrectData = [];
 let correctData = [];
-let colorColumn = 'oogKleur';
+let colorColumn;
+
 const button = document.querySelectorAll('button');
-let boxes = document.querySelectorAll('box');
-// or 'lievelingskleur'!
 
 fetch("data.json")
 .then(response => response.json())
 .then(json => {
 
   button.forEach(button => button.addEventListener('click', () => {
-
 
     if (button.innerText === 'Eye color') {
       colorColumn = 'oogKleur';
@@ -19,9 +17,8 @@ fetch("data.json")
     }
 
     cleanData(json, colorColumn);
+
   }));
-
-
 
 });
 
