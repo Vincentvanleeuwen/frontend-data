@@ -4,7 +4,7 @@ let colorColumn;
 
 const button = document.querySelectorAll('button');
 
-fetch("data.json")
+fetch('data.json')
 .then(response => response.json())
 .then(json => {
 
@@ -24,17 +24,20 @@ fetch("data.json")
 
 cleanData = (json, colorColumn) => {
 
-
-  document.querySelectorAll('.box').forEach(e => e.remove());
-  // while(boxes[0]) { boxes[0].parentNode.removeChild(boxes[0])} //Delete all boxes
+  // Reset data
+  document.querySelectorAll('.box').forEach(box => box.remove());
   incorrectData = [];
   correctData = [];
 
+  // Log the selected column
   console.log(colorColumn);
+
+
   let colorData = json.map(entry => entry[colorColumn]
                           .toUpperCase()
-                          .replace(/\s/g, "") // Delete all spaces
-                          .replace(".", ",") // Replace points to commas in RGB
+                          .replace(/\s/g, '') // Delete all spaces
+                          .replace('.', ',') // Replace points to commas in RGB
+                          .replace('#', '') // Delete hashtags
                           );
 
   colorData.forEach(color => {
@@ -47,13 +50,27 @@ cleanData = (json, colorColumn) => {
                       Number(rgbValues.split(",")[2])).toUpperCase();
     }
 
-    if(!color.startsWith('#') && color.length === 6) {
+
+    // Tried with parseInt to check for hexcolor, didn't work out.
+
+    // console.log(color, parseInt(color, 16));
+    // let checkColor = parseInt(color, 16);
+    // console.log(checkColor);
+    // if (checkColor.length < 6 && !color.startsWith('#')) {
+    //   incorrectData.push(color);
+    //   return;
+    // }
+
+    // source: https://stackoverflow.com/questions/8027423/how-to-check-if-a-string-is-a-valid-hex-color-representation/8027444
+    if(!color.startsWith('#') && color.match(/^([0-9A-F]{3}){1,2}$/i)) {
+
       color = '#' + color; // Add Hashtag before each Hexcolor.
     }
 
     if(color.startsWith('#') && color.length === 7) {
       correctData.push(color); // Add all correct Hexcolors to this array
-    } else {
+    }
+    else {
       incorrectData.push(color); // Add all incorrect Hexcolors to this array
     }
 
@@ -74,8 +91,21 @@ cleanData = (json, colorColumn) => {
 
   });
 
+  // Checks how many times a colorcode exists.
+  let occurrences = correctData.reduce((acc, cur) => {
+    acc[cur] ? acc[cur]++ : acc[cur] = 1;
+    return acc;
+  }, []);
+
+  console.log(occurrences);
+
 };
 
+
+
+// Utilities
+
+// Source: https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 componentToHex = (c) => {
 
   var hex = c.toString(16);
