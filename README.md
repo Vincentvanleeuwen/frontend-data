@@ -22,8 +22,9 @@ Navigate to the desired directory in your terminal. Once you've reached the dire
 ```
 You can now open index.html to check the project.
 
-## Live Link
-https://vincentvanleeuwen.github.io/functional-programming/#favorite-color
+## Live Preview
+![Alt text](https://github.com/Vincentvanleeuwen/functional-programming/blob/main/media/datasetcolors.gif)
+
 
 ## Sources
 People that helped: Jonah Meijers
