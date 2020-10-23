@@ -29,6 +29,7 @@ https://vincentvanleeuwen.github.io/functional-programming/#favorite-color
 People that helped: Jonah Meijers
 
 https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+
 https://stackoverflow.com/questions/8027423/how-to-check-if-a-string-is-a-valid-hex-color-representation/8027444
 
 
