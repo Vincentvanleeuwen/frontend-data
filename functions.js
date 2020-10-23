@@ -33,9 +33,6 @@ cleanData = (json, colorColumn) => {
   correctData = [];
 
   // Log the selected column
-
-
-
   let colorData = json.map(entry => entry[colorColumn]
                           .toUpperCase()
                           .replace(/\s/g, '') // Delete all spaces
@@ -54,17 +51,6 @@ cleanData = (json, colorColumn) => {
                         +rgbValues.split(",")[1],
                         +rgbValues.split(",")[2]).toUpperCase();
     }
-
-
-    // Tried with parseInt to check for hexcolor, didn't work out.
-
-    // console.log(color, parseInt(color, 16));
-    // let checkColor = parseInt(color, 16);
-    // console.log(checkColor);
-    // if (checkColor.length < 6 && !color.startsWith('#')) {
-    //   incorrectData.push(color);
-    //   return;
-    // }
 
     // source: https://stackoverflow.com/questions/8027423/how-to-check-if-a-string-is-a-valid-hex-color-representation/8027444
     if(!color.startsWith('#') && color.match(/^([0-9A-F]{3}){1,2}$/i)) {
