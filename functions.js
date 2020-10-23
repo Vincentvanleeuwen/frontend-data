@@ -48,9 +48,11 @@ cleanData = (json, colorColumn) => {
     if(color.startsWith('RGB')) {
       rgbValues = color.match(/\(([^)]+)\)/)[1]; // Get everything between the parentheses
 
+
+      // + is a short version of Number(). It's used to change a string into a number
       color = rgbToHex( +rgbValues.split(",")[0],
-                      +rgbValues.split(",")[1],
-                      +rgbValues.split(",")[2]).toUpperCase();
+                        +rgbValues.split(",")[1],
+                        +rgbValues.split(",")[2]).toUpperCase();
     }
 
 
@@ -94,15 +96,26 @@ cleanData = (json, colorColumn) => {
 
   });
 
-  // Checks how many times a colorcode exists.
   let occurrences = correctData.reduce((acc, cur) => {
-    acc[cur] ? acc[cur]++ : acc[cur] = 1;
-    return acc;
-  }, []);
 
-  console.log(occurrences);
+    // Tuple for finding the index of a certain color
+    let i = acc.findIndex(([color]) => color === cur);
+
+    // If index exists, add an occurrence in an array for each hexcode
+    // [color, occurrence]
+    i > 0 ? acc[i][1]++ : acc.push([cur, 1]);
+
+    return acc;
+
+  }, []);
+  console.log('All Occurrences', occurrences);
+
+  // _ stands for the unused variable color
+  let filteredOccurrences = occurrences.filter(([_, amount]) => amount !== 1);
+  console.log('Only more than one occurrences', filteredOccurrences);
 
 };
+
 
 cleanAllData = (json) => {
   console.log('source data =', json);
@@ -143,3 +156,8 @@ rgbToHex = (r, g, b) => {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 
 };
+
+// @@@ Sources @@@
+// Jonah Meijers has helped me with
+// - Reduce function.
+// - Tuples
