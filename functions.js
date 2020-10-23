@@ -2,7 +2,8 @@ let incorrectData = [];
 let correctData = [];
 let colorColumn;
 
-const button = document.querySelectorAll('button');
+const button = document.querySelectorAll('a');
+
 
 fetch('data.json')
 .then(response => response.json())
@@ -10,15 +11,17 @@ fetch('data.json')
 
   button.forEach(button => button.addEventListener('click', () => {
 
-    if (button.innerText === 'Eye color') {
-      colorColumn = 'oogKleur';
-    } else {
+    if (window.location.hash === '#favorite-color') {
       colorColumn = 'lievelingskleur';
+    } else {
+      colorColumn = 'oogKleur';
     }
 
     cleanData(json, colorColumn);
 
   }));
+
+  cleanAllData(json);
 
 });
 
@@ -30,7 +33,7 @@ cleanData = (json, colorColumn) => {
   correctData = [];
 
   // Log the selected column
-  console.log(colorColumn);
+
 
 
   let colorData = json.map(entry => entry[colorColumn]
@@ -45,9 +48,9 @@ cleanData = (json, colorColumn) => {
     if(color.startsWith('RGB')) {
       rgbValues = color.match(/\(([^)]+)\)/)[1]; // Get everything between the parentheses
 
-      color = rgbToHex( Number(rgbValues.split(",")[0]),
-                      Number(rgbValues.split(",")[1]),
-                      Number(rgbValues.split(",")[2])).toUpperCase();
+      color = rgbToHex( +rgbValues.split(",")[0],
+                      +rgbValues.split(",")[1],
+                      +rgbValues.split(",")[2]).toUpperCase();
     }
 
 
@@ -101,7 +104,29 @@ cleanData = (json, colorColumn) => {
 
 };
 
+cleanAllData = (json) => {
+  console.log('source data =', json);
 
+  let keys = Object.keys(json[0]); // Get all questions
+
+  let newData = json.reduce((acc, cur) => {
+
+    // For each question, create a question if it doesn't exist and push the answers
+    keys.forEach(keys => {
+
+      if(!acc[keys]) {
+        acc[keys] = []
+      }
+      acc[keys].push(cur[keys]);
+
+    });
+
+    return acc;
+
+  }, {});
+
+  console.log('newData', newData);
+};
 
 // Utilities
 
