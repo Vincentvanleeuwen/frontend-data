@@ -16,6 +16,19 @@ To experiment with functional programming we've been given a data set of CMD stu
 
 ## Installation Guide
 
+Navigate to the desired directory in your terminal. Once you've reached the directory, place the following code in your terminal.
 ```terminal
-  git clone 
+  git clone https://github.com/Vincentvanleeuwen/functional-programming.git
 ```
+You can now open index.html to check the project.
+
+## Live Link
+https://vincentvanleeuwen.github.io/functional-programming/#favorite-color
+
+## Sources
+Jonah Meijer
+https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+https://stackoverflow.com/questions/8027423/how-to-check-if-a-string-is-a-valid-hex-color-representation/8027444
+
+
+License: [MIT]
