@@ -28,7 +28,7 @@ You can now open index.html to check the project.
 
 ## Sources
 People that helped: 
-- Jonah Meijers (Reduce)
+- Jonah Meijers (Reduce, Tuples)
 - Robert Spier (Windows/Git problems)
 
 https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
