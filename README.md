@@ -27,7 +27,9 @@ You can now open index.html to check the project.
 
 
 ## Sources
-People that helped: Jonah Meijers
+People that helped: 
+- Jonah Meijers (Reduce)
+- Robert Spier (Windows/Git problems)
 
 https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
