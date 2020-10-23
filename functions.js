@@ -1,5 +1,4 @@
-let incorrectData = [];
-let correctData = [];
+
 let colorColumn;
 
 const button = document.querySelectorAll('a');
@@ -9,6 +8,7 @@ fetch('data.json')
 .then(response => response.json())
 .then(json => {
 
+  // modulair maken
   button.forEach(button => button.addEventListener('click', () => {
 
     if (window.location.hash === '#favorite-color') {
@@ -25,12 +25,16 @@ fetch('data.json')
 
 });
 
+// .then UI aanpassingen!
+// Probeer reusable functies te maken
 cleanData = (json, colorColumn) => {
 
+  // UI in regel 19!
   // Reset data
   document.querySelectorAll('.box').forEach(box => box.remove());
-  incorrectData = [];
-  correctData = [];
+  let incorrectData = [];
+  let correctData = [];
+
 
   // Log the selected column
   let colorData = json.map(entry => entry[colorColumn]
