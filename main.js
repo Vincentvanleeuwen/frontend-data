@@ -7,38 +7,67 @@ const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json',
 const allowedColumns = ['areaid', 'chargingpointcapacity', 'areageometryastext'];
 
 // Fetch the database URL
-const fetchData = async (endPoints) => {
+const fetchAllData = async (endPoints) => {
 
-  const response = {
-    'chargingPoints': await fetch(endPoints[0]),
-    'geoLocation': await fetch(endPoints[1])
-  };
+  const allEndpoints = endPoints.map(endPoint => fetch(endPoint));
+  return Promise.all(allEndpoints);
 
-  console.log(response);
-
-  return await response.json();
 };
 
-fetchData(endPoints)
-.then(result => {
-  console.log(result);
 
-  const mappedDataSet = mapDataSets(result);
-  console.log(mappedDataSet);
-  
+fetchAllData(endPoints)
+.then(result => {
+
+  // Loop through endPoints, convert them to JSON
+  let dataSetsToJson = result.map(dataSet => dataSet.json());
+  return Promise.all(dataSetsToJson).then(result => result);
+
 }).then(result => {
 
-  console.log(result);
+  mapDataSets(result);
 
 });
 
 // Filter allowed columns from data sets
-const mapDataSets = (json) => {
-    json.map(column => allowedColumns.includes(column));
+const mapDataSets = (endPoints) => {
+
+
+  const allEndpoints = endPoints.map(endPoint => {
+
+    return endPoint.reduce((acc, curr) => {
+      console.log( curr);
+      acc[curr.allowedColumns[0]]= curr;
+      return acc;
+    }, {});
+
+
+  });
+
+  console.log(allEndpoints);
+  // return json.map(entry => entry[allowedColumns[0]]);
+
+  // return json.reduce((acc, curr, i) => {
+  //
+  //
+  //
+  //   return acc + i;
+  // }, {});
+
+};
+const filterByColumn = (obj) => {
+
+  return allowedColumns.forEach(allowedColumn => {
+    // console.log('ALLOWED COLUMN', allowedColumn);
+    console.log('OBJECT', obj[allowedColumn]);
+    return obj[allowedColumn];
+  });
+
+
+
 };
 
-// Merge both data sets into one data set.
 
+// Merge both data sets into one data set.
 const mergeDataSets = (json) => {
 
   // -- Check for overlapping areaid's
