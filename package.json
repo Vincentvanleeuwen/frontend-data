@@ -1,0 +1,24 @@
+{
+  "name": "functional-programming",
+  "version": "1.0.0",
+  "description": "RDW Data",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vincentvanleeuwen/functional-programming.git"
+  },
+  "keywords": [
+    "RDW",
+    "Datavis"
+  ],
+  "author": "Vincent van Leeuwen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vincentvanleeuwen/functional-programming/issues"
+  },
+  "homepage": "https://github.com/Vincentvanleeuwen/functional-programming#readme"
+}

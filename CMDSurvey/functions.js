@@ -18,13 +18,9 @@ fetchData('data.json')
   // Restructure all rows
   cleanAllData(result);
 
-}).then(() => {
 
-  // Add Color Boxes
-  createColorBoxes();
   // Add UI buttons
-  addClickableButtons();
-
+  addEventToButtons(result);
 });
 
 
@@ -39,7 +35,10 @@ cleanData = (result, column) => {
                           .replace('#', '') // Delete hashtags
                           );
 
+  // Change values into correct hex codes.
   changeIntoHex(colorData);
+
+  // Count how many colors of each color exist.
   countColor(correctData);
 
 };
@@ -55,9 +54,14 @@ cleanAllData = (json) => {
     // For each question, create a question if it doesn't exist and push the answers
     keys.forEach(keys => {
 
+      // If column doesn't exist
       if(!acc[keys]) {
+
+        // Add column
         acc[keys] = []
       }
+
+      // Add current value to current column
       acc[keys].push(cur[keys]);
 
     });
@@ -104,7 +108,7 @@ changeIntoHex = (data) => {
 };
 
 countColor = (dataSet) => {
-  dataSet.reduce((acc, cur) => {
+  let occurrences = dataSet.reduce((acc, cur) => {
 
     // Tuple for finding the index of a certain color
     let i = acc.findIndex(([color]) => color === cur);
@@ -123,7 +127,7 @@ countColor = (dataSet) => {
 };
 
 // UI Helpers
-addClickableButtons = () => {
+addEventToButtons = (result) => {
   const button = document.querySelectorAll('a');
 
   button.forEach(button => button.addEventListener('click', () => {
@@ -141,7 +145,10 @@ addClickableButtons = () => {
     }
 
     // Reset the data
-    cleanData(json, colorColumn);
+    cleanData(result, column);
+
+    // Add Color Boxes
+    createColorBoxes();
 
   }));
 };
