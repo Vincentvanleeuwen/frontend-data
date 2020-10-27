@@ -1,108 +1,46 @@
+let column = 'oogKleur';
+let incorrectData = [];
+let correctData = [];
 
-let colorColumn;
+// Fetch the database URL
+const fetchData = async (url) => {
+  const response = await fetch(url);
+  return await response.json();
+};
 
-const button = document.querySelectorAll('a');
 
+fetchData('data.json')
+.then(result => {
 
-fetch('data.json')
-.then(response => response.json())
-.then(json => {
+  // Clean Eye color & Favorite color
+  cleanData(result, column);
 
-  // modulair maken
-  button.forEach(button => button.addEventListener('click', () => {
+  // Restructure all rows
+  cleanAllData(result);
 
-    if (window.location.hash === '#favorite-color') {
-      colorColumn = 'lievelingskleur';
-    } else {
-      colorColumn = 'oogKleur';
-    }
+}).then(() => {
 
-    cleanData(json, colorColumn);
-
-  }));
-
-  cleanAllData(json);
+  // Add Color Boxes
+  createColorBoxes();
+  // Add UI buttons
+  addClickableButtons();
 
 });
 
-// .then UI aanpassingen!
+
 // Probeer reusable functies te maken
-cleanData = (json, colorColumn) => {
-
-  // UI in regel 19!
-  // Reset data
-  document.querySelectorAll('.box').forEach(box => box.remove());
-  let incorrectData = [];
-  let correctData = [];
-
+cleanData = (result, column) => {
 
   // Log the selected column
-  let colorData = json.map(entry => entry[colorColumn]
+  let colorData = result.map(entry => entry[column]
                           .toUpperCase()
                           .replace(/\s/g, '') // Delete all spaces
                           .replace('.', ',') // Replace points to commas in RGB
                           .replace('#', '') // Delete hashtags
                           );
 
-  colorData.forEach(color => {
-
-    if(color.startsWith('RGB')) {
-      rgbValues = color.match(/\(([^)]+)\)/)[1]; // Get everything between the parentheses
-
-
-      // + is a short version of Number(). It's used to change a string into a number
-      color = rgbToHex( +rgbValues.split(",")[0],
-                        +rgbValues.split(",")[1],
-                        +rgbValues.split(",")[2]).toUpperCase();
-    }
-
-    // source: https://stackoverflow.com/questions/8027423/how-to-check-if-a-string-is-a-valid-hex-color-representation/8027444
-    if(!color.startsWith('#') && color.match(/^([0-9A-F]{3}){1,2}$/i)) {
-
-      color = '#' + color; // Add Hashtag before each Hexcolor.
-    }
-
-    if(color.startsWith('#') && color.length === 7) {
-      correctData.push(color); // Add all correct Hexcolors to this array
-    }
-    else {
-      incorrectData.push(color); // Add all incorrect Hexcolors to this array
-    }
-
-  });
-
-  console.log('incorrect data:', incorrectData);
-  console.log('correct data:', correctData);
-
-
-  correctData.forEach(color => {
-
-    var node = document.createElement("DIV");
-    var textNode = document.createTextNode("" + color + "");
-    node.classList.add("box");
-    node.style.backgroundColor = color;
-    node.appendChild(textNode);
-    document.body.appendChild(node);
-
-  });
-
-  let occurrences = correctData.reduce((acc, cur) => {
-
-    // Tuple for finding the index of a certain color
-    let i = acc.findIndex(([color]) => color === cur);
-
-    // If index exists, add an occurrence in an array for each hexcode
-    // [color, occurrence]
-    i > 0 ? acc[i][1]++ : acc.push([cur, 1]);
-
-    return acc;
-
-  }, []);
-  console.log('All Occurrences', occurrences);
-
-  // _ stands for the unused variable color
-  let filteredOccurrences = occurrences.filter(([_, amount]) => amount !== 1);
-  console.log('Only more than one occurrences', filteredOccurrences);
+  changeIntoHex(colorData);
+  countColor(correctData);
 
 };
 
@@ -129,6 +67,96 @@ cleanAllData = (json) => {
   }, {});
 
   console.log('newData', newData);
+};
+
+// Data Helpers
+changeIntoHex = (data) => {
+
+  data.forEach(color => {
+
+    if(color.startsWith('RGB')) {
+      rgbValues = color.match(/\(([^)]+)\)/)[1]; // Get everything between the parentheses
+
+
+      // + is a short version of Number(). It's used to change a string into a number
+      color = rgbToHex( +rgbValues.split(",")[0],
+        +rgbValues.split(",")[1],
+        +rgbValues.split(",")[2]).toUpperCase();
+    }
+
+    // source: https://stackoverflow.com/questions/8027423/how-to-check-if-a-string-is-a-valid-hex-color-representation/8027444
+    if(!color.startsWith('#') && color.match(/^([0-9A-F]{3}){1,2}$/i)) {
+
+      color = '#' + color; // Add Hashtag before each Hexcolor.
+    }
+
+    if(color.startsWith('#') && color.length === 7) {
+      correctData.push(color); // Add all correct Hexcolors to this array
+    }
+    else {
+      incorrectData.push(color); // Add all incorrect Hexcolors to this array
+    }
+
+  });
+
+  console.log('incorrect data:', incorrectData);
+  console.log('correct data:', correctData);
+};
+
+countColor = (dataSet) => {
+  dataSet.reduce((acc, cur) => {
+
+    // Tuple for finding the index of a certain color
+    let i = acc.findIndex(([color]) => color === cur);
+
+    // If index exists, add an occurrence in an array for each hexcode
+    // [color, occurrence]
+    i > 0 ? acc[i][1]++ : acc.push([cur, 1]);
+
+    return acc;
+
+  }, []);
+
+  // _ stands for the unused variable color
+  let filteredOccurrences = occurrences.filter(([_, amount]) => amount !== 1);
+  console.log('Only more than one occurrences', filteredOccurrences);
+};
+
+// UI Helpers
+addClickableButtons = () => {
+  const button = document.querySelectorAll('a');
+
+  button.forEach(button => button.addEventListener('click', () => {
+
+    // Reset data
+    document.querySelectorAll('.box').forEach(box => box.remove());
+    incorrectData = [];
+    correctData = [];
+
+    // Change column based on location hash
+    if (window.location.hash === '#favorite-color') {
+      column = 'lievelingskleur';
+    } else {
+      column = 'oogKleur';
+    }
+
+    // Reset the data
+    cleanData(json, colorColumn);
+
+  }));
+};
+
+createColorBoxes = () => {
+  correctData.forEach(color => {
+
+    var node = document.createElement("DIV");
+    var textNode = document.createTextNode("" + color + "");
+    node.classList.add("box");
+    node.style.backgroundColor = color;
+    node.appendChild(textNode);
+    document.body.appendChild(node);
+
+  });
 };
 
 // Utilities
