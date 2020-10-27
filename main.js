@@ -41,44 +41,36 @@ const mapDataSets = (endPoints) => {
   const mappedData = endPoints.map(endPoint => {
 
     // Loop through each entry of the data set
-    endPoint.forEach(entry => {
+    return endPoint.map(entry => {
 
-      // Loop over each object from an endPoint
-      for(const [key, value] of Object.entries(entry)) {
+        // Loop over each object from an endPoint
+        let newEntry = Object.entries(entry).map(column => {
 
-        console.log('BeforeDelete====', Object.entries(entry));
+          // Check if the key doesn't match one of the allowed columns
+          if(!allowedColumns.includes(column[0])) {
 
-        // Check if the key matches one of the allowed columns
-        if(allowedColumns.includes(key)) {
+            delete column[0];
+            delete column[1];
 
-          return entry[key];
+          } else {
 
-        } else {
+            return column;
 
-          // Delete entry if it doesn't match
-          delete entry[key];
-          delete entry[value];
-          console.log('afterDelete=====', Object.entries(entry));
-        }
-      }
+          }
+
+        });
+
+        // Delete all entries that are undefined
+        return newEntry.filter(el => el !== undefined);
+
+
     });
 
   });
 
   console.log(mappedData); // Returns [undefined, undefined] ?
 
-  console.log('afterDelete=====', endPoints);
 };
-
-// const filterByColumn = (obj) => {
-//
-//   return allowedColumns.forEach(allowedColumn => {
-//     // console.log('ALLOWED COLUMN', allowedColumn);
-//     console.log('OBJECT', obj[allowedColumn]);
-//     return obj[allowedColumn];
-//   });
-//
-// };
 
 
 // Merge both data sets into one data set.
