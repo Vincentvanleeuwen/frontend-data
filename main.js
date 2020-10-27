@@ -22,55 +22,63 @@ fetchAllData(endPoints)
   let dataSetsToJson = result.map(dataSet => dataSet.json());
   return Promise.all(dataSetsToJson).then(result => result);
 
-}).then(result => {
+}).then(json => {
 
-  mapDataSets(result);
+  mapDataSets(json);
+
+}).then(mappedResult => {
+
+  console.log(mappedResult);
 
 });
 
 // Filter allowed columns from data sets
 const mapDataSets = (endPoints) => {
 
+  console.log(endPoints);
 
-  const allEndpoints = endPoints.map(endPoint => {
+  // Loop through the available data sets
+  const mappedData = endPoints.map(endPoint => {
 
+    // Loop through each entry of the data set
     endPoint.forEach(entry => {
 
-      allowedColumns.forEach(column => {
-        // console.log(column);
-        // console.log(entry);
-        console.log(entry[column]);
-      });
+      // Loop over each object from an endPoint
+      for(const [key, value] of Object.entries(entry)) {
 
+        console.log('BeforeDelete====', Object.entries(entry));
 
+        // Check if the key matches one of the allowed columns
+        if(allowedColumns.includes(key)) {
+
+          return entry[key];
+
+        } else {
+
+          // Delete entry if it doesn't match
+          delete entry[key];
+          delete entry[value];
+          console.log('afterDelete=====', Object.entries(entry));
+        }
+      }
     });
-    allowedColumns.forEach(column => endPoint.column);
-
 
   });
 
-  console.log(allEndpoints);
-  // return json.map(entry => entry[allowedColumns[0]]);
+  console.log(mappedData); // Returns [undefined, undefined] ?
 
-  // return json.reduce((acc, curr, i) => {
-  //
-  //
-  //
-  //   return acc + i;
-  // }, {});
-
+  console.log('afterDelete=====', endPoints);
 };
-const filterByColumn = (obj) => {
 
-  return allowedColumns.forEach(allowedColumn => {
-    // console.log('ALLOWED COLUMN', allowedColumn);
-    console.log('OBJECT', obj[allowedColumn]);
-    return obj[allowedColumn];
-  });
-
-
-
-};
+// const filterByColumn = (obj) => {
+//
+//   return allowedColumns.forEach(allowedColumn => {
+//     // console.log('ALLOWED COLUMN', allowedColumn);
+//     console.log('OBJECT', obj[allowedColumn]);
+//     return obj[allowedColumn];
+//   });
+//
+// };
 
 
 // Merge both data sets into one data set.
