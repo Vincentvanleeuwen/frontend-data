@@ -34,11 +34,17 @@ const mapDataSets = (endPoints) => {
 
   const allEndpoints = endPoints.map(endPoint => {
 
-    return endPoint.reduce((acc, curr) => {
-      console.log( curr);
-      acc[curr.allowedColumns[0]]= curr;
-      return acc;
-    }, {});
+    endPoint.forEach(entry => {
+
+      allowedColumns.forEach(column => {
+        // console.log(column);
+        // console.log(entry);
+        console.log(entry[column]);
+      });
+
+
+    });
+    allowedColumns.forEach(column => endPoint.column);
 
 
   });
