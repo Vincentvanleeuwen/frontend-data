@@ -24,21 +24,22 @@ fetchAllData(endPoints)
 
 }).then(json => {
 
-  mapDataSets(json);
+  return mapDataSets(json);
 
 }).then(mappedResult => {
 
-  console.log(mappedResult);
+  return mergeDataSets(mappedResult);
 
+}).then(mergedData => {
+
+  console.log('Merged Data !=!=!=!=!', mergedData);
 });
 
 // Filter allowed columns from data sets
 const mapDataSets = (endPoints) => {
 
-  console.log(endPoints);
-
   // Loop through the available data sets
-  const mappedData = endPoints.map(endPoint => {
+  return endPoints.map(endPoint => {
 
     // Loop through each entry of the data set
     return endPoint.map(entry => {
@@ -60,21 +61,52 @@ const mapDataSets = (endPoints) => {
 
         });
 
-        // Delete all entries that are undefined
-        return newEntry.filter(el => el !== undefined);
+        // Return all entries that are not undefined
+        return newEntry.filter(entry => entry !== undefined);
 
 
     });
 
   });
 
-  console.log(mappedData); // Returns [undefined, undefined] ?
-
 };
 
 
 // Merge both data sets into one data set.
-const mergeDataSets = (json) => {
+const mergeDataSets = (endPoints) => {
+
+  console.log(endPoints);
+
+  const chargingPointData = endPoints[0];
+  const geoLocationData = endPoints[1];
+
+  console.log(geoLocationData[0]);
+  return chargingPointData.reduce((acc, cur, i) => {
+
+    // For each question, create a question if it doesn't exist and push the answers
+    geoLocationData.forEach(entry => {
+
+      if(entry[0][1].includes(cur[0][1])) {
+
+        let merged = [...cur, ...entry];
+
+        acc[i] = [merged];
+        // console.log('true!');
+
+      } else {
+        // acc[i] = [cur] || [entry];
+        // acc[cur].push({entry});
+      }
+    });
+
+
+
+
+    // console.log(acc);
+    return acc;
+
+  }, {});
+
 
   // -- Check for overlapping areaid's
   // -- Delete doubles.
