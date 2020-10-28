@@ -3,6 +3,7 @@
 const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json?$limit=5000',
                    'https://opendata.rdw.nl/resource/nsk3-v9n7.json?$limit=7000' ];
 
+
 // Filter all data sets by these columns
 const allowedColumns = ['areaid', 'chargingpointcapacity', 'areageometryastext'];
 
@@ -75,27 +76,26 @@ const mapDataSets = (endPoints) => {
 // Merge both data sets into one data set.
 const mergeDataSets = (endPoints) => {
 
-  console.log(endPoints);
-
   const chargingPointData = endPoints[0];
   const geoLocationData = endPoints[1];
 
-  console.log(geoLocationData[0]);
   return chargingPointData.reduce((acc, cur) => {
 
+    // Check if there is a match between the two entries
     const match = geoLocationData.find(entry => entry[0][1].includes(cur[0][1]));
 
     if(match) {
 
-      // Merge entry of chargingPointData with entry of geoLocationData
-      let merged = [...cur, ...match];
+        // Merge entry of chargingPointData with entry of geoLocationData
+        let merged = [...cur, ...match];
 
-      // Delete the double entry
-      delete merged[2];
-      let filtered = merged.filter(entry => entry !== undefined);
+        // Delete the double entry
+        delete merged[2];
+        let filtered = merged.filter(entry => entry !== undefined);
 
-      // Push to Accumulator
-      acc.push(filtered);
+        // Push to Accumulator
+        acc.push(filtered);
+
 
     }
 
