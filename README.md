@@ -4,6 +4,10 @@
 
 In this project I'm showing the eye color and favorite color of CMD students in a list. By placing two buttons on the index.html I'm allowing the user to switch between the two data sets. All the colors are translated to boxes with the hexcode in it.
 
+Furthermore I've come up with a research question about the RDW data.
+"Can you still easily park in Amsterdam when changing to an electric car?"
+My expectations for this research question are that it's going to be a lot harder to find a parking spot. Especially if you need to charge your car.
+
 ## Which Features?
 
 Using fetch I receive all the data from a .json file. The Data can't be shared due to privacy reasons. Therefore I have extracted only the eye color and favorite color.
@@ -15,7 +19,9 @@ I've also tried using reduce in two ways:
 
 ## Which Data am I using?
 
-To experiment with functional programming we've been given a data set of CMD students to clean. I have chosen to clean the eye color column and the favorite color column.
+To experiment with functional programming we've been given a data set of CMD students to clean. This data can't be shared publicly, so I have excluded this data set from the project. I have chosen to clean the eye color column and the favorite color column.
+
+For my research question I'm using data from the RDW about the specifications of a parking area. 
 
 ## Installation Guide
 
