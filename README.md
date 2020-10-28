@@ -7,7 +7,7 @@ In this project I'm showing the eye color and favorite color of CMD students in 
 Furthermore I've come up with a research question about the RDW data.
 "Can you still easily park in Amsterdam when changing to an electric car?"
 My expectations for this research question are that it's going to be a lot harder to find a parking spot. Especially if you need to charge your car.
-
+For a more detailed overview, check [https://github.com/Vincentvanleeuwen/functional-programming/wiki/The-Research-of-the-Data](Research Questions)
 ## Which Features?
 
 Using fetch I receive all the data from a .json file. The Data can't be shared due to privacy reasons. Therefore I have extracted only the eye color and favorite color.
