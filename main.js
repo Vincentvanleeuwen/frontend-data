@@ -1,7 +1,7 @@
 // endPoints[0] = charging points
 // endPoints[1] = Geolocation (polygons/points)
-const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json',
-                   'https://opendata.rdw.nl/resource/nsk3-v9n7.json'];
+const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json?$limit=5000',
+                   'https://opendata.rdw.nl/resource/nsk3-v9n7.json?$limit=7000' ];
 
 // Filter all data sets by these columns
 const allowedColumns = ['areaid', 'chargingpointcapacity', 'areageometryastext'];
@@ -81,36 +81,27 @@ const mergeDataSets = (endPoints) => {
   const geoLocationData = endPoints[1];
 
   console.log(geoLocationData[0]);
-  return chargingPointData.reduce((acc, cur, i) => {
+  return chargingPointData.reduce((acc, cur) => {
 
-    // For each question, create a question if it doesn't exist and push the answers
-    geoLocationData.forEach(entry => {
+    const match = geoLocationData.find(entry => entry[0][1].includes(cur[0][1]));
 
-      if(entry[0][1].includes(cur[0][1])) {
+    if(match) {
 
-        let merged = [...cur, ...entry];
+      // Merge entry of chargingPointData with entry of geoLocationData
+      let merged = [...cur, ...match];
 
-        acc[i] = [merged];
-        // console.log('true!');
+      // Delete the double entry
+      delete merged[2];
+      let filtered = merged.filter(entry => entry !== undefined);
 
-      } else {
-        // acc[i] = [cur] || [entry];
-        // acc[cur].push({entry});
-      }
-    });
+      // Push to Accumulator
+      acc.push(filtered);
 
+    }
 
-
-
-    // console.log(acc);
     return acc;
 
-  }, {});
-
-
-  // -- Check for overlapping areaid's
-  // -- Delete doubles.
-  // -- Merge singles.
+  }, []);
 
 };
 
