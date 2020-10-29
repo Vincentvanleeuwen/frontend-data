@@ -22,12 +22,14 @@ I've also tried using reduce in two ways:
 
 ## Which Data am I using?
 To find out how many charging points there are in Amsterdam I'm using RDW's dataset: [Specifications Parking Area](https://opendata.rdw.nl/Parkeren/Open-Data-Parkeren-SPECIFICATIES-PARKEERGEBIED/b3us-f26s)
+
 Needed columns:
 - AreaId
 - ChargingPointCapacity
 
 However this data set does not tell us where each charging point is located.
 To find out where these charging points are I'm using RDW's dataset:[Geometry Area](https://opendata.rdw.nl/Parkeren/Open-Data-Parkeren-GEOMETRIE-GEBIED/nsk3-v9n7)
+
 Needed columns:
 - AreaId
 - GeoDataAsText
