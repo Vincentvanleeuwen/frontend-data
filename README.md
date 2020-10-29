@@ -4,7 +4,9 @@
 
 The newspaper "De Volkskrant" asked us to look at data from the RDW and create a concept that will be interesting enough for a data journalist to write an article about.
 I've come up with an interesting research question about the RDW data.
+
 *"How does changing to an electric car impact your parking availability in Amsterdam?"*
+
 My expectations for this research question are that it's going to be a lot harder to find a parking spot. Especially if you need to charge your car.
 For a more detailed overview, check [Research Questions](https://github.com/Vincentvanleeuwen/functional-programming/wiki/The-Research-of-the-Data)
 
