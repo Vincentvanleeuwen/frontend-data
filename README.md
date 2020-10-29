@@ -28,7 +28,7 @@ Needed columns:
 - ChargingPointCapacity
 
 However this data set does not tell us where each charging point is located.
-To find out where these charging points are I'm using RDW's dataset:[Geometry Area](https://opendata.rdw.nl/Parkeren/Open-Data-Parkeren-GEOMETRIE-GEBIED/nsk3-v9n7)
+To find out where these charging points are I'm using RDW's dataset: [Geometry Area](https://opendata.rdw.nl/Parkeren/Open-Data-Parkeren-GEOMETRIE-GEBIED/nsk3-v9n7)
 
 Needed columns:
 - AreaId
