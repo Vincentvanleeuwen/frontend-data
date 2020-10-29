@@ -38,6 +38,12 @@ Needed columns:
 
 In these two data sets I can compare the AreaID row, so I can find out where each charging point is located.
 
+## Functional Patterns
+
+- [Map()]
+- [Filter()]
+- [Reduce()](https://github.com/Vincentvanleeuwen/functional-programming/wiki/What-the-Reduce%3F!)
+
 ## Installation Guide
 
 Navigate to the desired directory in your terminal. Once you've reached the directory, place the following code in your terminal.
