@@ -40,8 +40,8 @@ In these two data sets I can compare the AreaID row, so I can find out where eac
 
 ## Functional Patterns
 
-- [Map()]
-- [Filter()]
+- [Currying and Composition](https://github.com/Vincentvanleeuwen/functional-programming/wiki/Functional-Programming)
+- [Filter()](https://github.com/Vincentvanleeuwen/functional-programming/wiki/Filtering-a-Reduced-Array)
 - [Reduce()](https://github.com/Vincentvanleeuwen/functional-programming/wiki/What-the-Reduce%3F!)
 
 ## Installation Guide
