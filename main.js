@@ -1,4 +1,5 @@
-import { mapDataSets, mergeDataSets, fetchAllData } from "./modules/cleanData.js";
+import {fetchAllData} from "./helpers/endPoints.js";
+import { mapDataSets, mergeDataSets} from "./modules/cleanData.js";
 import { convertToJSON } from "./utils/convertToJSON.js";
 
 const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json?$limit=5000',

@@ -1,6 +1,4 @@
 // Filter all data sets by these columns
-import fetch from "node-fetch";
-
 const allowedColumns = [
   'areaid',
   'chargingpointcapacity',
@@ -8,14 +6,6 @@ const allowedColumns = [
   'capacity',
   'areadesc'
 ];
-
-// Fetch the database URL
-export const fetchAllData = async (endPoints) => {
-
-  const allEndpoints = endPoints.map(endPoint => fetch(endPoint));
-  return Promise.all(allEndpoints);
-
-};
 
 // Filter allowed columns from data sets
 export const mapDataSets = (endPoints) => {
