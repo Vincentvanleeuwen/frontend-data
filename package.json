@@ -5,7 +5,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "node main.js"
+    "test": "node main.js",
+    "start": "nodemon main.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/Vincentvanleeuwen/functional-programming/issues"
   },
-  "homepage": "https://github.com/Vincentvanleeuwen/functional-programming#readme"
+  "homepage": "https://github.com/Vincentvanleeuwen/functional-programming#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
