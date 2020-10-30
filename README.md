@@ -15,6 +15,14 @@ In this project I'm also visualizing the eye color and favorite color of CMD stu
 
 ## Which Features?
 
+### Volkskrant
+- Fetch all data
+- Convert data to JSON
+- Map data, delete unnecesarry columns.
+- Merge two datasets based on AreaId using Reduce
+- Filter empty entries
+
+### CMDSurvey
 Using fetch I receive all the data from a .json file. 
 To get the right column I'm using map() to get the specific colum, and change the data by using .replace to delete spaces, replace points to commas and delete hashtags.
 I'm using Regex to find hexcode matching numbers. 
@@ -30,13 +38,14 @@ Needed columns:
 - ChargingPointCapacity
 
 However this data set does not tell us where each charging point is located.
-To find out where these charging points are I'm using RDW's dataset: [Geometry Area](https://opendata.rdw.nl/Parkeren/Open-Data-Parkeren-GEOMETRIE-GEBIED/nsk3-v9n7)
+To find out where these charging points are I'm using RDW's dataset: [GEO PARKEER GARAGES](https://opendata.rdw.nl/Parkeren/GEO-Parkeer-Garages/t5pc-eb34)
 
 Needed columns:
-- AreaId
-- GeoDataAsText
+- AreaID
+- AreaDesc
 
 In these two data sets I can compare the AreaID row, so I can find out where each charging point is located.
+The AreaDesc shows the name of the parking area and the city.
 
 ## Functional Patterns
 
@@ -47,6 +56,7 @@ In these two data sets I can compare the AreaID row, so I can find out where eac
 ## Installation Guide
 
 Navigate to the desired directory in your terminal. Once you've reached the directory, place the following code in your terminal.
+
 ```terminal
   > git clone https://github.com/Vincentvanleeuwen/functional-programming.git
   
@@ -64,7 +74,7 @@ Navigate to the desired directory in your terminal. Once you've reached the dire
 
 People that helped: 
 - Jonah Meijers (Reduce, Tuples)
-- Robert Spier (Windows/Git problems)
+- Robert Spier (Windows/Git problems & Map)
 
 https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
