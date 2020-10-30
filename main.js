@@ -5,7 +5,7 @@ const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json?$limit=5000'
 
 
 // Filter all data sets by these columns
-const allowedColumns = ['areaid', 'chargingpointcapacity', 'areageometryastext'];
+const allowedColumns = ['areaid', 'chargingpointcapacity', 'areageometryastext', 'capacity'];
 
 // Fetch the database URL
 const fetchAllData = async (endPoints) => {
@@ -23,17 +23,13 @@ fetchAllData(endPoints)
   let dataSetsToJson = result.map(dataSet => dataSet.json());
   return Promise.all(dataSetsToJson).then(result => result);
 
-}).then(json => {
-
-  return mapDataSets(json);
-
-}).then(mappedResult => {
-
-  return mergeDataSets(mappedResult);
-
-}).then(mergedData => {
+})
+.then(json => mapDataSets(json))
+.then(mappedResult => mergeDataSets(mappedResult))
+.then(mergedData => {
 
   console.log('Merged Data !=!=!=!=!', mergedData);
+
 });
 
 // Filter allowed columns from data sets
