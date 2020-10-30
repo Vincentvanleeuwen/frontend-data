@@ -1,7 +1,13 @@
 // Filter all data sets by these columns
 import fetch from "node-fetch";
 
-const allowedColumns = ['areaid', 'chargingpointcapacity', 'areageometryastext', 'capacity'];
+const allowedColumns = [
+  'areaid',
+  'chargingpointcapacity',
+  'areageometryastext',
+  'capacity',
+  'areadesc'
+];
 
 // Fetch the database URL
 export const fetchAllData = async (endPoints) => {
@@ -13,7 +19,7 @@ export const fetchAllData = async (endPoints) => {
 
 // Filter allowed columns from data sets
 export const mapDataSets = (endPoints) => {
-
+  // console.log(endPoints);
   // Loop through the available data sets
   return endPoints.map(endPoint => {
 
@@ -26,7 +32,6 @@ export const mapDataSets = (endPoints) => {
 
         // Check if the key doesn't match one of the allowed columns
         if(!allowedColumns.includes(column[0])) {
-          console.log('new entry =', column);
           delete column[0];
           delete column[1];
 
@@ -53,7 +58,7 @@ export const mapDataSets = (endPoints) => {
 export const mergeDataSets = (endPoints) => {
 
   const chargingPointData = endPoints[0];
-  const geoLocationData = endPoints[1];
+  const geoLocationData = endPoints[2];
   // const geoLocationData = endPoints[2];
 
   return chargingPointData.reduce((acc, cur) => {
@@ -67,7 +72,12 @@ export const mergeDataSets = (endPoints) => {
       let merged = [...cur, ...match];
 
       // Delete the double entry
-      delete merged[2];
+
+      // If entry is areaid delete it.
+      if (merged[0][0] === "areaid") {
+        delete merged[0];
+      }
+
       let filtered = merged.filter(entry => entry !== undefined);
 
       // Push to Accumulator

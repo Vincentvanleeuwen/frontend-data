@@ -12,7 +12,7 @@ fetchAllData(endPoints)
 .then(mappedResult => mergeDataSets(mappedResult))
 .then(mergedData => {
 
-  // console.log('Merged Data !=!=!=!=!', mergedData);
+  console.log('Merged Data !=!=!=!=!', mergedData);
 
 })
 .catch(err => console.log("FetchError - ", err));
