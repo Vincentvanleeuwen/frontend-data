@@ -1,7 +1,9 @@
 // endPoints[0] = charging points
 // endPoints[1] = Geolocation (polygons/points)
+// endPoints[2] = Geolocation (placename)
 const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json?$limit=5000',
-                   'https://opendata.rdw.nl/resource/nsk3-v9n7.json?$limit=7000' ];
+                   'https://opendata.rdw.nl/resource/nsk3-v9n7.json?$limit=7000',
+                   'https://opendata.rdw.nl/resource/t5pc-eb34.json'];
 
 
 // Filter all data sets by these columns
@@ -74,6 +76,7 @@ const mergeDataSets = (endPoints) => {
 
   const chargingPointData = endPoints[0];
   const geoLocationData = endPoints[1];
+  // const geoLocationData = endPoints[2];
 
   return chargingPointData.reduce((acc, cur) => {
 
