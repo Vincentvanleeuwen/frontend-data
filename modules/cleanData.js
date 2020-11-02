@@ -73,12 +73,47 @@ export const mergeDataSets = (endPoints) => {
       // Push to Accumulator
       acc.push(filtered);
 
-
     }
 
     return acc;
 
   }, []);
+
+};
+
+
+
+export const changeToPlaceName = (data) => {
+
+  return data.map(entry => {
+    return entry.map(column => {
+      // console.log('entry=' ,column);
+
+      if (column[0] === 'areadesc') {
+
+        column[0] = 'location';
+
+        // https://stackoverflow.com/questions/6208367/regex-to-match-stuff-between-parentheses
+        // trim everything before first and after last parenthesis
+        column[1] = column[1].replace(/^[^(]*\(/, "")
+                             .replace(/\)[^(]*$/, "");
+
+        switch(column[1]) {
+          case 'Almere Buiten':
+            // code block
+            break;
+          case y:
+            // code block
+            break;
+          default:
+            // code block
+        }
+      }
+
+      return column;
+    });
+
+  });
 
 };
 
