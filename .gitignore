@@ -1,3 +1,5 @@
 node_modules
 .idea
 CMDSurvey/data.json
+.cache
+dist
