@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime';
-import { fetchAllData } from "./helpers/endPoints.js";
+import { fetchAllData } from "./helpers/fetchData.js";
 import {
   mapDataSets,
   mergeDataSets,
@@ -7,7 +7,7 @@ import {
   restructureDataSets
 } from "./modules/cleanData.js";
 import { convertToJSON } from "./utils/convertToJSON.js";
-import * as d3 from "d3";
+import { select } from "d3";
 
 const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json?$limit=5000',
                    'https://opendata.rdw.nl/resource/t5pc-eb34.json?$limit=7000'];
@@ -29,7 +29,7 @@ fetchAllData(endPoints)
     width = 460 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-  const graphContainer = d3.select('#graph-container')
+  const graphContainer = select('#graph-container')
   .append('svg')
   .attr("preserveAspectRatio", "xMinYMin meet")
   .attr("viewBox", "0 0 500 500")
