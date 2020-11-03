@@ -1,0 +1,1 @@
+export const filterAllUndefined = (entry) => entry !== undefined;

@@ -1,3 +1,5 @@
+import { filterAllUndefined } from "../utils/filterAllUndefined.js";
+import { firstLetterToUpperCase } from "../utils/firstLetterToUpperCase.js"
 // Filter all data sets by these columns
 const allowedColumns = [
   'areaid',
@@ -17,24 +19,19 @@ export const mapDataSets = (endPoints) => {
     return endPoint.map(entry => {
 
       // Loop over each object from an endPoint
-      let newEntry = Object.entries(entry).map(column => {
-
+      return Object.entries(entry).map(column => {
 
         // Check if the key doesn't match one of the allowed columns
         if(!allowedColumns.includes(column[0])) {
           delete column[0];
           delete column[1];
-
         } else {
-
           return column;
-
         }
-
-      });
-
+      })
       // Return all entries that are not undefined
-      return newEntry.filter(entry => entry !== undefined);
+      .filter(filterAllUndefined);
+
 
 
     });
@@ -68,7 +65,7 @@ export const mergeDataSets = (endPoints) => {
         delete merged[0];
       }
 
-      let filtered = merged.filter(entry => entry !== undefined);
+      let filtered = merged.filter(filterAllUndefined);
 
       // Push to Accumulator
       acc.push(filtered);
@@ -98,12 +95,40 @@ export const changeToPlaceName = (data) => {
         column[1] = column[1].replace(/^[^(]*\(/, "")
                              .replace(/\)[^(]*$/, "");
 
+        firstLetterToUpperCase(column[1]);
+
         switch(column[1]) {
           case 'Almere Buiten':
-            // code block
+            column[1] = 'Almere';
             break;
-          case y:
-            // code block
+          case 'Almere Stad':
+            column[1] = 'Almere';
+            break;
+          case 'Garage Boschplein':
+            column[1] = 'Sneek';
+            break;
+          case 'Parkeergarage Emmawijk - Dek':
+            column[1] = 'Zwolle';
+            break;
+          case 'Garage Oostwal-Oost':
+            column[1] = 'Oss';
+            break;
+          case 'Ziekenhuis) (Rotterdam':
+            column[1] = 'Rotterdam';
+            break;
+          case 'Heerhugowaard Centrum':
+            column[1] = 'Heerhugowaard';
+            break;
+          case 'Garage Maasburg':
+            column[1] = 'Maasburg';
+            break;
+          case 'Parkeergarage Station':
+            delete column[1];
+            delete column[0];
+            break;
+          case 'Carpool Nuenen A270':
+            delete column[1];
+            delete column[0];
             break;
           default:
             // code block
@@ -111,9 +136,9 @@ export const changeToPlaceName = (data) => {
       }
 
       return column;
-    });
-
-  });
+    })
+  // Only filter entries that contain a location
+  }).filter(entry => entry[3] && entry[3][0]);
 
 };
 

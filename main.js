@@ -1,4 +1,3 @@
-
 import 'regenerator-runtime/runtime';
 import { fetchAllData } from "./helpers/endPoints.js";
 import { mapDataSets, mergeDataSets, changeToPlaceName } from "./modules/cleanData.js";

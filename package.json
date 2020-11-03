@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Vincentvanleeuwen/functional-programming#readme",
   "dependencies": {
+    "d3": "^6.2.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
