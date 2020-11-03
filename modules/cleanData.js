@@ -1,5 +1,6 @@
 import { filterAllUndefined } from "../utils/filterAllUndefined.js";
 import { firstLetterToUpperCase } from "../utils/firstLetterToUpperCase.js"
+
 // Filter all data sets by these columns
 const allowedColumns = [
   'areaid',
@@ -7,6 +8,27 @@ const allowedColumns = [
   'areageometryastext',
   'capacity',
   'areadesc'
+];
+
+const cities = [
+  'Alkmaar', 'Almelo', 'Amersfoort',
+  'Amsterdam', 'Arnhem', 'Assen',
+  'Bergen op Zoom', 'Breda',
+  'Deventer', 'Doetinchem', 'Dordrecht',
+  'Eindhoven', 'Enschede',
+  'Gouda', 'Groningen',
+  'Haarlem', 'Harderwijk', 'Helmond',
+  'Leeuwarden', 'Leiden',
+  'Maastricht', 'Middelburg',
+  'Nijmegen',
+  'Oldenzaal', 'Oosterhout', 'Oss',
+  'Purmerend',
+  'Rijssen', 'Roermond', 'Rotterdam',
+  'Schiedam', 's-Hertogenbosch', 'Sittard',
+  'Sneek', 'Terneuzen', 'Utrecht',
+  'Venlo', 'Vlaardingen', 'Vlissingen',
+  'Weert', 'Winschoten',
+  'Zutphen', 'Zwolle'
 ];
 
 // Filter allowed columns from data sets
@@ -45,13 +67,12 @@ export const mapDataSets = (endPoints) => {
 export const mergeDataSets = (endPoints) => {
 
   const chargingPointData = endPoints[0];
-  const geoLocationData = endPoints[2];
-  // const geoLocationData = endPoints[2];
+  const locationData = endPoints[1];
 
   return chargingPointData.reduce((acc, cur) => {
 
     // Check if there is a match between the two entries
-    const match = geoLocationData.find(entry => entry[0][1].includes(cur[0][1]));
+    const match = locationData.find(entry => entry[0][1].includes(cur[0][1]));
 
     if(match) {
 
@@ -79,7 +100,6 @@ export const mergeDataSets = (endPoints) => {
 };
 
 
-
 export const changeToPlaceName = (data) => {
 
   return data.map(entry => {
@@ -94,8 +114,7 @@ export const changeToPlaceName = (data) => {
         // trim everything before first and after last parenthesis
         column[1] = column[1].replace(/^[^(]*\(/, "")
                              .replace(/\)[^(]*$/, "");
-
-        firstLetterToUpperCase(column[1]);
+        column[1] = firstLetterToUpperCase(column[1]);
 
         switch(column[1]) {
           case 'Almere Buiten':
@@ -143,9 +162,28 @@ export const changeToPlaceName = (data) => {
 };
 
 // Restructure both Datasets
-export const restructureDataSets = (json) => {
+export const restructureDataSets = (arr) => {
 
-  // -- 0:{ areaid: '', charginpoint: '', geoloc: ''}
+  return arr.reduce((acc, cur, i) => {
 
+    // Location, capacity, and chargingPoints
+    let location = cur[3][1];
+    let capacity = +cur[0][1];
+    let chargingPoints = +cur[1][1];
+
+    //If location doesn't exist
+    if(!acc[location]) {
+
+      // Add location
+      acc[location] = { capacity: 0, chargingPointCapacity: 0}
+    }
+
+    // Add capacity and chargingPointCapacity to location
+    acc[location].capacity += capacity;
+    acc[location].chargingPointCapacity += chargingPoints;
+
+    return acc;
+
+  }, {});
 };
 

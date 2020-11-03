@@ -1,0 +1,17 @@
+#graph-container {
+  display: inline-block;
+  position: relative;
+  width: 90%;
+  padding-bottom: 100%;
+  vertical-align: top;
+  overflow: hidden;
+
+  margin: 30px 30px 70px 60px
+}
+.graph-content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+}
