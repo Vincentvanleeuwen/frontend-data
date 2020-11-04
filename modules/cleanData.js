@@ -24,7 +24,7 @@ const cities = [
   'Oldenzaal', 'Oosterhout', 'Oss',
   'Purmerend',
   'Rijssen', 'Roermond', 'Rotterdam',
-  'Schiedam', 's-Hertogenbosch', 'Sittard',
+  'Schiedam', `'s-Hertogenbosch`, 'Sittard',
   'Sneek', 'Terneuzen', 'Utrecht',
   'Venlo', 'Vlaardingen', 'Vlissingen',
   'Weert', 'Winschoten',
@@ -161,90 +161,6 @@ export const changeToPlaceName = (data) => {
 
 };
 
-// Restructure both Datasets
-// export const restructureDataSets = (arr) => {
-//
-//   return arr.reduce((acc, cur, i) => {
-//
-//     // Location, capacity, and chargingPoints
-//     let location = cur[3][1];
-//     let capacity = +cur[0][1];
-//     let chargingPoints = +cur[1][1];
-//
-//     if(acc.cities) {
-//       acc = [cities: {}, towns: {}];
-//     }
-//
-//     // [
-//     //   cities: {
-//     //    {capacity: 0, location: Amsterdam, chargingPoints: 0}
-//     //   },
-//     //   towns: {
-//     //
-//     //   }
-//     // ]
-//
-//     //If location doesn't exist
-//     if(!acc.cities.location) {
-//
-//       if(cities.includes(location)) {
-//         acc.cities[location] = { capacity: 0, chargingPointCapacity: 0};
-//         acc.cities[location].capacity += capacity;
-//         acc.cities[location].chargingPointCapacity += chargingPoints;
-//       } else {
-//         acc.towns[location] = { capacity: 0, chargingPointCapacity: 0};
-//         acc.towns[location].capacity += capacity;
-//         acc.towns[location].chargingPointCapacity += chargingPoints;
-//       }
-//
-//     }
-//
-//     // Add capacity and chargingPointCapacity to location
-//
-//
-//     return acc;
-//
-//   }, []);
-// };
-// export const restructureDataSets = (arr) => {
-//
-//   return arr.reduce((acc, cur) => {
-//
-//     let location = cur[3][1];
-//     let capacity = +cur[0][1];
-//     let chargingPoints = +cur[1][1];
-//
-//     if (!acc.cities && !acc.towns) {
-//       acc.push({cities: {}, towns: {}})
-//     }
-//     //If location doesn't exist
-//     // if (!acc.cities.location) {
-//
-//       if (cities.includes(location)) {
-//
-//         acc.cities['location'] = location;
-//         acc.cities['capacity'] = capacity;
-//         acc.cities['chargingPointCapacity'] = chargingPoints;
-//       } else {
-//         acc.towns['location'] = location;
-//         acc.towns['capacity'] = capacity;
-//         acc.towns['chargingPointCapacity'] = chargingPoints;
-//         // acc.towns = {location: location, capacity: capacity, chargingPointCapacity: chargingPoints};
-//       }
-//       // Add location
-//
-//     // }
-//
-//     // Add capacity and chargingPointCapacity to location
-//     // acc['cities'].capacity += capacity;
-//     // acc['cities'].chargingPointCapacity += chargingPoints;
-//
-//     return acc;
-//
-//
-//   }, []);
-//
-// };
 export const restructureDataSets = (arr) => {
 
   return arr.reduce((acc, cur, i) => {
@@ -254,21 +170,28 @@ export const restructureDataSets = (arr) => {
     let chargingPoints = +cur[1][1];
 
     //If location doesn't exist
-    if(!acc[location]) {
+    if(!acc[i]) {
 
       // Add location
-      acc[location] = { capacity: 0, chargingPointCapacity: 0, type: null}
+      acc[i] = {
+        location: null,
+        capacity: 0,
+        chargingPointCapacity: 0,
+        type: null
+      }
+
     }
 
     // Add capacity and chargingPointCapacity to location
-    acc[location].capacity += capacity;
-    acc[location].chargingPointCapacity += chargingPoints;
+    acc[i].location = location;
+    acc[i].capacity += capacity;
+    acc[i].chargingPointCapacity += chargingPoints;
 
     // Check if town or city
     if (cities.includes(location)) {
-      acc[location].type = 'city';
+      acc[i].type = 'city';
     } else {
-      acc[location].type = 'town';
+      acc[i].type = 'town';
     }
 
     return acc;
