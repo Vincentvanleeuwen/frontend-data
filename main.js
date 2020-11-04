@@ -7,7 +7,13 @@ import {
   restructureDataSets
 } from "./modules/cleanData.js";
 import { convertToJSON } from "./utils/convertToJSON.js";
-import { select } from "d3";
+import {
+  select,
+  axisBottom,
+  axisLeft,
+  scaleBand,
+  scaleLinear
+} from "d3";
 
 const endPoints = ['https://opendata.rdw.nl/resource/b3us-f26s.json?$limit=5000',
                    'https://opendata.rdw.nl/resource/t5pc-eb34.json?$limit=7000'];
@@ -23,11 +29,12 @@ fetchAllData(endPoints)
 
   console.log(restructuredData);
 
-  const data = Object.keys(restructuredData);
+  const data = Object.entries(restructuredData);
+  // console.log(Object.entries((restructuredData)));
 
-  var margin = {top: 10, right: 30, bottom: 90, left: 40},
-    width = 460 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  const margin = {top: 10, right: 30, bottom: 90, left: 40},
+        width = 460 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
   const graphContainer = select('#graph-container')
   .append('svg')
@@ -36,26 +43,26 @@ fetchAllData(endPoints)
   .classed("graph-content", true);
 
 // Add X axis
-  const x = d3.scaleBand()
-  .range([0, 1800])
-  .domain(data.map(d => d))
+  const x = scaleBand()
+  .range([0, 2000])
+  .domain(data.filter(d => d[1].type === 'city'))
   .padding(1);
 
   graphContainer.append('g')
   .attr("transform", "translate(0," + width + ")")
-  .call(d3.axisBottom(x))
+  .call(axisBottom(x))
   .selectAll("text")
   .attr("transform", "translate(-10,0)rotate(-45)")
   .style("text-anchor", "end");
 
 // Add Y axis
-  var y = d3.scaleLinear()
+  var y = scaleLinear()
   .domain([0, 20000])
   .range([height, 0]);
 
 
   graphContainer.append("g")
-  .call(d3.axisLeft(y))
+  .call(axisLeft(y))
   .style("fill", "#69b3a2");
 
 
