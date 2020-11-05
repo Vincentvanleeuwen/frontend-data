@@ -24,7 +24,7 @@ const cities = [
   'Oldenzaal', 'Oosterhout', 'Oss',
   'Purmerend',
   'Rijssen', 'Roermond', 'Rotterdam',
-  'Schiedam', `'s-Hertogenbosch`, 'Sittard',
+  'Schiedam', 'Den Bosch', 'Sittard',
   'Sneek', 'Terneuzen', 'Utrecht',
   'Venlo', 'Vlaardingen', 'Vlissingen',
   'Weert', 'Winschoten',
@@ -101,7 +101,6 @@ export const mergeDataSets = (endPoints) => {
 
 
 export const changeToPlaceName = (data) => {
-
   return data.map(entry => {
     return entry.map(column => {
       // console.log('entry=' ,column);
@@ -115,8 +114,11 @@ export const changeToPlaceName = (data) => {
         column[1] = column[1].replace(/^[^(]*\(/, "")
                              .replace(/\)[^(]*$/, "");
         column[1] = firstLetterToUpperCase(column[1]);
-
+        // console.log(column[1]);
         switch(column[1]) {
+          case `'s-Hertogenbosch`:
+            column[1] = 'Den Bosch';
+            break;
           case 'Almere Buiten':
             column[1] = 'Almere';
             break;
@@ -149,6 +151,8 @@ export const changeToPlaceName = (data) => {
             delete column[1];
             delete column[0];
             break;
+
+
           default:
             // code block
         }
@@ -162,36 +166,50 @@ export const changeToPlaceName = (data) => {
 };
 
 export const restructureDataSets = (arr) => {
+  console.log(arr);
 
-  return arr.reduce((acc, cur, i) => {
+  return arr.reduce((acc, cur) => {
 
     let location = cur[3][1];
     let capacity = +cur[0][1];
     let chargingPoints = +cur[1][1];
 
-    //If location doesn't exist
-    if(!acc[i]) {
+    // Check if location matches another entries' location, return the index
+    const itemIndex = acc.findIndex(item => item.location === location);
 
-      // Add location
-      acc[i] = {
+    // Check if index exists
+    if(itemIndex > -1) {
+
+      // Add capacity/chargingpointcapacity to this object
+      acc[itemIndex].capacity += capacity;
+      acc[itemIndex].chargingPointCapacity += chargingPoints;
+    } else {
+
+      // Otherwise create a new entry
+      const newItem = {
         location: null,
         capacity: 0,
         chargingPointCapacity: 0,
         type: null
+      };
+
+      // Add capacity, chargingPointCapacity, and location to entry
+      newItem.location = location;
+      newItem.capacity += capacity;
+      newItem.chargingPointCapacity += chargingPoints;
+
+      // Set the type of the entry
+      if (!newItem.type) {
+        // Check if town or city
+        if (cities.includes(location)) {
+          newItem.type = 'city';
+        } else {
+          newItem.type = 'town';
+        }
       }
 
-    }
+      acc.push(newItem);
 
-    // Add capacity and chargingPointCapacity to location
-    acc[i].location = location;
-    acc[i].capacity += capacity;
-    acc[i].chargingPointCapacity += chargingPoints;
-
-    // Check if town or city
-    if (cities.includes(location)) {
-      acc[i].type = 'city';
-    } else {
-      acc[i].type = 'town';
     }
 
     return acc;
