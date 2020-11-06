@@ -53,15 +53,9 @@ export const mapDataSets = (endPoints) => {
       })
       // Return all entries that are not undefined
       .filter(filterAllUndefined);
-
-
-
     });
-
   });
-
 };
-
 
 // Merge both data sets into one data set.
 export const mergeDataSets = (endPoints) => {
@@ -90,13 +84,10 @@ export const mergeDataSets = (endPoints) => {
 
       // Push to Accumulator
       acc.push(filtered);
-
     }
 
     return acc;
-
   }, []);
-
 };
 
 
@@ -151,18 +142,14 @@ export const changeToPlaceName = (data) => {
             delete column[1];
             delete column[0];
             break;
-
-
           default:
             // code block
         }
       }
-
       return column;
     })
   // Only filter entries that contain a location
   }).filter(entry => entry[3] && entry[3][0]);
-
 };
 
 export const restructureDataSets = (arr) => {
@@ -207,12 +194,8 @@ export const restructureDataSets = (arr) => {
           newItem.type = 'town';
         }
       }
-
       acc.push(newItem);
-
     }
-
     return acc;
-
   }, []);
 };
