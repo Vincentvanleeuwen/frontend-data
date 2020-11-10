@@ -82,18 +82,75 @@ export const passDataToD3 = (data) => {
         .join('circle')
           .attr('cx', d => x(d[currentColumn]))
           .attr('cy', d => y(d.location) + 4)
+
           .on("mouseover", (event, d) => {
             select('.tooltip').transition()
-            .duration(200)
-            .style("opacity", .9);
+              .duration(200)
+              .style("opacity", .9);
 
             select('.tooltip').html(`${d[currentColumn]} ${currentColumn === 'capacity' ? 'parking spots' :
               'charging points'} `)
-            .style('left', `${event.pageX}px`)
-            .style('top', `${event.pageY - 28}px`);
+              .style('left', `${event.pageX}px`)
+              .style('top', `${event.pageY - 28}px`);
+          })
+          .on('mouseout', () => {
+            select('.tooltip').transition()
+              .duration(500)
+              .style('opacity', 0);
           });
     };
-
+    // const update = (axis, target, newSet) => {
+    //
+    //   // Update domain
+    //   axis.domain(getPlaces(data, newColumn).map(d => d.location).sort());
+    //
+    //   const axisElement = graphContainer.select('#y-axis');
+    //
+    //   // Update Axis Y
+    //   if (axis === 'y') {
+    //     axisElement.transition()
+    //     .duration(500)
+    //     .call(axisLeft(axis));
+    //   } else {
+    //
+    //   }
+    //
+    //
+    //   // Update lollisticks
+    //   target.selectAll('.lollistick')
+    //   .data(getPlaces(data, currentType))
+    //   .join('line').transition().duration(500)
+    //   .attr('x1', d => x(d[currentColumn]))
+    //   .attr('y1', d => y(d.location) + 4.5)
+    //   .attr('y2', d => y(d.location) + 4.5);
+    //
+    //   // Update lollipop
+    //   target.selectAll('.lollipop')
+    //   .data(getPlaces(data, currentType))
+    //   .join('circle')
+    //   .attr('cx', d => x(d[currentColumn]))
+    //   .attr('cy', d => y(d.location) + 4.5)
+    //   .on("mouseover", (event, d) => {
+    //     select('.tooltip').transition()
+    //     .duration(200)
+    //     .style("opacity", .9);
+    //
+    //     select('.tooltip').html(`${d[currentColumn]} ${currentColumn === 'capacity' ? 'parking spots' :
+    //       'charging points'} `)
+    //     .style('left', `${event.pageX}px`)
+    //     .style('top', `${event.pageY - 28}px`);
+    //   })
+    //   .on('mouseout', () => {
+    //     select('.tooltip').transition()
+    //     .duration(500)
+    //     .style('opacity', 0);
+    //   });
+    //
+    //   target.selectAll('.lollipop')
+    //   .transition().duration(500)
+    //   // Source: https://bl.ocks.org/d3noob/257c360b3650b9f0a52dd8257d7a2d73
+    //
+    // };
     const updateY = (target, newColumn) => {
       // Update domain
       y.domain(getPlaces(data, newColumn).map(d => d.location).sort());
@@ -102,36 +159,47 @@ export const passDataToD3 = (data) => {
 
       // Update Axis Y
       axisElement.transition()
-        .duration(500)
-        .call(axisLeft(y));
+      .duration(500)
+      .call(axisLeft(y));
 
       // Update lollisticks
       target.selectAll('.lollistick')
-        .data(getPlaces(data, currentType))
-        .join('line').transition().duration(500)
-          .attr('x1', d => x(d[currentColumn]))
-          .attr('y1', d => y(d.location) + 4.5)
-          .attr('y2', d => y(d.location) + 4.5);
+      .data(getPlaces(data, currentType))
+      .join('line').transition().duration(500)
+        .attr('x1', d => x(d[currentColumn]))
+        .attr('y1', d => y(d.location) + 4.5)
+        .attr('y2', d => y(d.location) + 4.5);
 
       // Update lollipop
-      target.selectAll('.lollipop')
-        .data(getPlaces(data, currentType))
-        .join('circle')
-          .attr('cx', d => x(d[currentColumn]))
-          .attr('cy', d => y(d.location) + 4.5)
-           .on("mouseover", (event, d) => {
-              select('.tooltip').transition()
-              .duration(200)
-              .style("opacity", .9);
+      const lollipops =  target.selectAll('.lollipop')
+      .data(getPlaces(data, currentType))
+      .join('circle');
 
-              select('.tooltip').html(`${d[currentColumn]} ${currentColumn === 'capacity' ? 'parking spots' : 
-                'charging points'} `)
-              .style('left', `${event.pageX}px`)
-              .style('top', `${event.pageY - 28}px`);
-            });
+      lollipops.transition().duration(500)
+        .attr('cx', d => x(d[currentColumn]))
+        .attr('cy', d => y(d.location) + 4.5);
+
+      lollipops
+        .on("mouseover", (event, d) => {
+          select('.tooltip').transition()
+          .duration(200)
+          .style("opacity", .9);
+
+          select('.tooltip').html(`${d[currentColumn]} ${currentColumn === 'capacity' ? 'parking spots' :
+            'charging points'} `)
+          .style('left', `${event.pageX}px`)
+          .style('top', `${event.pageY - 28}px`);
+        })
+        .on('mouseout', () => {
+          select('.tooltip').transition()
+          .duration(500)
+          .style('opacity', 0);
+        });
 
 
-          // Source: https://bl.ocks.org/d3noob/257c360b3650b9f0a52dd8257d7a2d73
+      // Source: https://bl.ocks.org/d3noob/257c360b3650b9f0a52dd8257d7a2d73
+
+      console.log(target.selectAll('.lollipop'));
     };
 
   };
@@ -176,38 +244,39 @@ const addAxisToContainer = (target) => {
 
 const createLollipops = (target, data) => {
 
-  const lollipopSelector = target.selectAll('.lollipop');
-  const lollistickSelector = target.selectAll('.lollisticker');
+  const lollipops = target.selectAll('.lollipop').data(getPlaces(data, currentType)).join('circle');
+  const lollisticks = target.selectAll('.lollistick').data(getPlaces(data, currentType)).join('line');
 
-  lollistickSelector
-    .data(getPlaces(data, currentType))
-    .join('line')
-      .attr('x1', d => x(d[currentColumn]))
-      .attr('x2', x(0))
-      .attr('y1', d => y(d.location) + 4.5)
-      .attr('y2', d => y(d.location) + 4.5)
-      .attr('stroke', 'orange')
-      .attr('class', 'lollistick');
+  lollisticks
+    .attr('y1', d => y(d.location) + 4.5)
+    .attr('y2', d => y(d.location) + 4.5)
+    .transition().duration(500)
+        .attr('x1', d => x(d[currentColumn]))
+        .attr('x2', x(0))
 
-  lollipopSelector
-    .data(getPlaces(data, currentType))
-    .join('circle')
-      .attr('cx', d => x(d[currentColumn]))
+        .attr('stroke', 'orange')
+        .attr('class', 'lollistick');
+
+  lollipops
+    .attr('fill', 'blue')
+    .attr('stroke', 'blue')
+    .attr('opacity', 0.5)
+    .attr('class', 'lollipop');
+
+  lollipops
       .attr('cy', d => y(d.location) + 4.5)
-      .attr('r', 3)
-      .attr('fill', 'blue')
-      .attr('stroke', 'blue')
-      .attr('opacity', 0.5)
-      .attr('class', 'lollipop');
+      .transition().duration(500)
+        .attr('cx', d => x(d[currentColumn]))
+        .attr('r', 3);
 
-  lollipopSelector.transition().duration(500);
 
-  lollipopSelector.on("mouseover", (event, d) => {
-      select('.tooltip').transition()
-      .duration(200)
-      .style("opacity", .9);
+  lollipops.on("mouseover", (event, d) => {
 
-      select('.tooltip').html(`${d[currentColumn]} ${currentColumn} `)
+    select('.tooltip').transition().duration(200)
+    .style("opacity", .9);
+
+    select('.tooltip').html(`${d[currentColumn]} ${currentColumn === 'capacity' ? 'parking spots' :
+           'charging points'} `)
       .style('left', `${event.pageX}px`)
       .style('top', `${event.pageY - 28}px`);
     })
