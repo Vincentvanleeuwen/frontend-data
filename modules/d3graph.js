@@ -1,6 +1,5 @@
 import {
   select,
-  selectAll,
   axisBottom,
   axisLeft,
   scaleBand,
@@ -34,7 +33,6 @@ let currentType = 'city';
 export const passDataToD3 = (data) => {
 
   const initializeD3 = (currentColumn, currentType) => {
-
     setScales(data);
     addAxisToContainer(graphContainer);
     createLollipops(graphContainer, data);
@@ -136,15 +134,11 @@ export const passDataToD3 = (data) => {
           // Source: https://bl.ocks.org/d3noob/257c360b3650b9f0a52dd8257d7a2d73
     };
 
-
-
   };
 
   initializeD3(currentColumn, currentType);
-
-
-
 };
+
 const setScales = (data) => {
   let xMax = max(data, ( d => d[currentColumn]));
   let yMax = getPlaces(data, currentType).map(d => d.location).sort();
@@ -153,7 +147,6 @@ const setScales = (data) => {
 
   // Create Y Axis
   y.domain(yMax).rangeRound([ 0, height]);
-
 };
 
 
@@ -207,11 +200,9 @@ const createLollipops = (target, data) => {
       .attr('opacity', 0.5)
       .attr('class', 'lollipop');
 
-  lolliSelector
-    .selectAll('.lollipop').transition().duration(500);
+  lolliSelector.transition().duration(500);
 
-  lolliSelector
-    .selectAll('.lollipop').on("mouseover", (event, d) => {
+  lolliSelector.on("mouseover", (event, d) => {
       select('.tooltip').transition()
       .duration(200)
       .style("opacity", .9);
