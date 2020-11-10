@@ -176,10 +176,10 @@ const addAxisToContainer = (target) => {
 
 const createLollipops = (target, data) => {
 
-  const lolliSelector = target.selectAll('.lollipop');
+  const lollipopSelector = target.selectAll('.lollipop');
+  const lollistickSelector = target.selectAll('.lollisticker');
 
-  target
-  .selectAll('.lollistick')
+  lollistickSelector
     .data(getPlaces(data, currentType))
     .join('line')
       .attr('x1', d => x(d[currentColumn]))
@@ -189,7 +189,7 @@ const createLollipops = (target, data) => {
       .attr('stroke', 'orange')
       .attr('class', 'lollistick');
 
-  lolliSelector
+  lollipopSelector
     .data(getPlaces(data, currentType))
     .join('circle')
       .attr('cx', d => x(d[currentColumn]))
@@ -200,9 +200,9 @@ const createLollipops = (target, data) => {
       .attr('opacity', 0.5)
       .attr('class', 'lollipop');
 
-  lolliSelector.transition().duration(500);
+  lollipopSelector.transition().duration(500);
 
-  lolliSelector.on("mouseover", (event, d) => {
+  lollipopSelector.on("mouseover", (event, d) => {
       select('.tooltip').transition()
       .duration(200)
       .style("opacity", .9);
