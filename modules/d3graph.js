@@ -129,7 +129,7 @@ const setScales = (data) => {
   x.domain([0, xMax]).rangeRound([0, width]).nice();
 
   // Create Y Axis
-  y.domain(yMax).rangeRound([ 0, height]);
+  y.domain(yMax).range([ 0, height]);
 };
 
 
@@ -145,11 +145,20 @@ const addAxisToContainer = (target) => {
       .style("text-anchor", "end");
 
 
+
   // Add Y axis to the graph
   target
   .append('g').transition()
   .attr("id", "y-axis")
   .call(axisLeft(y));
+
+
+  // .append("text")
+  // .attr("transform", "rotate(-90)")
+  // .attr("dy", ".75em")
+  // .attr("y", 6)
+  // .style("text-anchor", "end")
+  // .text("Frequency");
 
   // Add tooltip to the body instead of the container
   select('body')
@@ -164,8 +173,8 @@ const createLollipops = (target, data) => {
   const lollisticks = target.selectAll('.lollistick').data(getPlaces(data, currentType)).join('line');
 
   lollisticks
-    .attr('y1', d => y(d.location))
-    .attr('y2', d => y(d.location))
+    .attr('y1', d => y(d.location) + y.bandwidth() / 2)
+    .attr('y2', d => y(d.location) + y.bandwidth() / 2)
     .transition().duration(500)
         .attr('x1', d => x(d[currentColumn]))
         .attr('x2', x(0))
@@ -180,7 +189,7 @@ const createLollipops = (target, data) => {
     .attr('class', 'lollipop');
 
   lollipops
-      .attr('cy', d => y(d.location))
+      .attr('cy', d => y(d.location) + y.bandwidth() / 2)
       .transition().duration(500)
         .attr('cx', d => x(d[currentColumn]))
         .attr('r', 3);
