@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Vincentvanleeuwen/functional-programming#readme",
   "dependencies": {
+    "core-js": "^3.7.0",
     "d3": "^6.2.0"
   },
   "devDependencies": {

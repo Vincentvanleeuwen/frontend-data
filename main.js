@@ -1,3 +1,4 @@
+import 'core-js/stable'
 import 'regenerator-runtime/runtime.js';
 import { fetchAllData } from "./helpers/fetchData.js";
 import {
