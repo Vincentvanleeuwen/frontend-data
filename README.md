@@ -63,7 +63,9 @@ You can now preview the chart at localhost:1234/
 
 ## Live Preview
 https://vincentvanleeuwen.github.io/frontend-data/
-![][https://github.com/Vincentvanleeuwen/frontend-data/blob/main/media/preview.png?raw=true]
+
+![Preview Lollipop Chart](https://github.com/Vincentvanleeuwen/frontend-data/blob/main/media/preview.png)
+
 ## Sources
 
 People that helped: 
