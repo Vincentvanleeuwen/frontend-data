@@ -14,7 +14,7 @@ const margin = {top: 20, right: 20, bottom: 60, left: 120},
       width = 460 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
-const graphContainer = select('#graph-container')
+const graphContainer = select('svg')
                         .attr('width', width + margin.left + margin.right)
                         .attr('height', height + margin.top + margin.bottom)
                         .append('g')
