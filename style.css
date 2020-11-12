@@ -77,7 +77,7 @@ label {
   width:5em;
   text-align: center;
   cursor: pointer;
-
+  box-sizing: border-box;
 }
 input[type="radio"] {
   position: absolute;
@@ -92,7 +92,7 @@ label[for="parking"] {
   background-color: #5a61ff;
 }
 label[for="towns"]{
-  background-color: #4c2a1a;
+  background-color: #80a835;
   line-height: 39px;
 }
 label[for="cities"] {
@@ -121,6 +121,26 @@ label:hover{
   opacity: .9;
   transition: .5s;
 }
-label:has(input[type="radio"]:checked) {
-  border: 5px lightgreen;
+input[value="Parking Spots"]:checked ~ label[for="parking"] {
+  border: 2px black solid;
+}
+input[value="Charging Points"]:checked ~ label[for="charging"] {
+  border: 2px black solid;
+}
+input[value="Cities"]:checked ~ label[for="cities"] {
+  border: 2px black solid;
+}
+input[value="Towns"]:checked ~ label[for="towns"] {
+  border: 2px black solid;
+}
+.label-text {
+  font-style: italic;
+  font-weight: bold;
+  font-size: .8em;
+  fill: rgba(0, 0, 0, 0.3);
+}
+.title-text {
+  font-weight: bold;
+  font-size: .5em;
+  fill: rgba(0, 0, 0, 1);
 }

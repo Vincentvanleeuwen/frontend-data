@@ -35,11 +35,11 @@ export const passDataToD3 = (data) => {
     createLollipops(graphContainer, data);
 
     select('body').selectAll(("input[name='column']")).on("change", function(){
-      this.value !== 'Charging Points' ? currentColumn = 'chargingPointCapacity' : currentColumn = 'capacity';
+      this.value === 'Charging Points' ? currentColumn = 'chargingPointCapacity' : currentColumn = 'capacity';
       updateGraph('x', graphContainer, currentColumn, data);
     });
     select('body').selectAll(("input[name='type']")).on("change", function(){
-      this.value !== 'Towns' ? currentType = 'town' : currentType = 'city';
+      this.value === 'Towns' ? currentType = 'town' : currentType = 'city';
       updateGraph('y', graphContainer, currentType, data);
     });
 
@@ -50,14 +50,34 @@ export const passDataToD3 = (data) => {
       const lollipops =  target.selectAll('.lollipop').data(getPlaces(data, currentType)).join('circle');
       const lollisticks = target.selectAll('.lollistick').data(getPlaces(data, currentType)).join('line');
 
-      // Update Axis
-      axisElement.transition().duration(500);
-      axis === 'y' ?  axisElement.call(axisLeft(y)) : axisElement.call(axisBottom(x));
 
       // Update domain
       axis === 'y' ?
         y.domain(getPlaces(data, newSet).map(d => d.location).sort()) :
         x.domain([0, max(data, ( d => d[newSet]))]);
+
+      // Update Axis
+      axis === 'y' ?  axisElement.transition().duration(500).call(axisLeft(y)) : axisElement.transition().duration(500).call(axisBottom(x));
+
+      // Update Axis labels and lollipop colors
+      switch (newSet) {
+        case 'city':
+          select('.type').text("Cities");
+          break;
+        case 'town':
+          select('.type').text("Towns");
+          break;
+        case 'capacity':
+          select('.column').text("Amount of Parking spots");
+          lollisticks.attr('stroke', '#5a61ff');
+          lollipops.attr('fill', '#5a61ff').attr('stroke', '#5a61ff').attr('opacity', 0.9);
+          break;
+        case 'chargingPointCapacity':
+          select('.column').text("Amount of Charging Points");
+          lollisticks.attr('stroke', '#ffca68');
+          lollipops.attr('fill', '#ffca68').attr('stroke', '#ffca68').attr('opacity', 1);
+          break;
+      }
 
       // Update lollisticks
       lollisticks
@@ -66,17 +86,11 @@ export const passDataToD3 = (data) => {
         .transition().duration(500)
           .attr('x1', d => x(d[currentColumn]));
 
-      newSet === 'capacity' ? lollisticks.attr('stroke', 'red') : lollisticks.attr('stroke', 'blue');
-
       // Update lollipop
       lollipops
         .attr('cy', d => y(d.location) + y.bandwidth() / 2)
         .transition().duration(500)
           .attr('cx', d => x(d[currentColumn]));
-
-      newSet === 'capacity' ?
-        lollipops.attr('fill', 'red').attr('stroke', 'red').attr('opacity', 1) :
-        lollipops.attr('fill', 'blue').attr('stroke', 'blue').attr('opacity', 0.9);
 
       lollipops
         .on("mouseover", (event, d) => {
@@ -117,28 +131,46 @@ const addAxisToContainer = (target) => {
   // Add X axis to the graph
   target
   .append('g').transition()
-  .attr("transform", `translate(0, ${height} )`)
-  .attr("id", "x-axis")
+  .attr('transform', `translate(0, ${height} )`)
+  .attr('id', 'x-axis')
   .call(axisBottom(x))
     .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-35)")
-      .style("text-anchor", "end");
+      .attr('transform', 'translate(-10,0)rotate(-35)')
+      .style('text-anchor', 'end');
 
 
 
   // Add Y axis to the graph
   target
   .append('g').transition()
-  .attr("id", "y-axis")
+  .attr('id', 'y-axis')
   .call(axisLeft(y));
 
+  // Add labels to axis
+  // source: https://bl.ocks.org/d3noob/23e42c8f67210ac6c678db2cd07a747e
+  target.append('text')
+    .attr('transform', `translate(${width/2}, ${height + margin.top + 30})`)
+    .style("text-anchor", 'middle')
+    .attr('class', 'label-text column')
+    .text("Amount of Parking spots");
 
-  // .append("text")
-  // .attr("transform", "rotate(-90)")
-  // .attr("dy", ".75em")
-  // .attr("y", 6)
-  // .style("text-anchor", "end")
-  // .text("Frequency");
+  target.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('y', 0 - margin.left + 10)
+    .attr('x', 0 - (height / 2 - 20))
+    .attr('dy', '1em')
+    .style("text-anchor", 'middle')
+    .attr('class', 'label-text type')
+    .text("Cities");
+
+  // Add title to graph
+  target.append('text')
+  .attr('x', (width / 2) + 50)
+  .attr('y', 0 - (margin.top / 2))
+  .attr('text-anchor', 'middle')
+  .attr('class', "title-text")
+  .text('How many charging points do parking garages have in comparison to parking spots in different towns and' +
+      ' cities in The Netherlands?');
 
   // Add tooltip to the body instead of the container
   select('body')
@@ -153,18 +185,19 @@ const createLollipops = (target, data) => {
   const lollisticks = target.selectAll('.lollistick').data(getPlaces(data, currentType)).join('line');
 
   lollisticks
+    .attr('class', 'lollistick')
     .attr('y1', d => y(d.location) + y.bandwidth() / 2)
     .attr('y2', d => y(d.location) + y.bandwidth() / 2)
     .transition().duration(500)
         .attr('x1', d => x(d[currentColumn]))
         .attr('x2', x(0))
-        .attr('stroke', 'blue')
-        .attr('opacity', 0.5)
-        .attr('class', 'lollistick');
+        .attr('stroke', '#5a61ff')
+        .attr('opacity', 0.5);
+
 
   lollipops
-    .attr('fill', 'blue')
-    .attr('stroke', 'blue')
+    .attr('fill', '#5a61ff')
+    .attr('stroke', '#5a61ff')
     .attr('opacity', 1)
     .attr('class', 'lollipop');
 
