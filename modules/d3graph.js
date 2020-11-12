@@ -24,10 +24,6 @@ const graphContainer = select('#graph-container')
 const x = scaleLinear();
 const y = scaleBand();
 
-const columnButton = document.getElementById('transition-column');
-const typeButton = document.getElementById('transition-type');
-
-
 let currentColumn = 'capacity'; // Start on parking spots
 let currentType = 'city'; // Start on cities
 
@@ -38,11 +34,20 @@ export const passDataToD3 = (data) => {
     addAxisToContainer(graphContainer);
     createLollipops(graphContainer, data);
 
+    select('body').selectAll(("input[name='column']")).on("change", function(){
+      this.value !== 'Charging Points' ? currentColumn = 'chargingPointCapacity' : currentColumn = 'capacity';
+      updateGraph('x', graphContainer, currentColumn, data);
+    });
+    select('body').selectAll(("input[name='type']")).on("change", function(){
+      this.value !== 'Towns' ? currentType = 'town' : currentType = 'city';
+      updateGraph('y', graphContainer, currentType, data);
+    });
+
     // Change from parking spots to charging points
     select('#transition-column').on('click', () => {
       if (columnButton.innerHTML !== 'Charging Points') {
         columnButton.innerHTML = 'Charging Points';
-        currentColumn = 'chargingPointCapacity';
+
       } else {
         columnButton.innerHTML = 'Parking Spots';
         currentColumn = 'capacity';
@@ -78,11 +83,10 @@ export const passDataToD3 = (data) => {
         y.domain(getPlaces(data, newSet).map(d => d.location).sort()) :
         x.domain([0, max(data, ( d => d[newSet]))]);
 
-
       // Update lollisticks
       lollisticks
-        .attr('y1', d => y(d.location))
-        .attr('y2', d => y(d.location))
+        .attr('y1', d => y(d.location) + y.bandwidth() / 2)
+        .attr('y2', d => y(d.location) + y.bandwidth() / 2)
         .transition().duration(500)
           .attr('x1', d => x(d[currentColumn]));
 
@@ -90,7 +94,7 @@ export const passDataToD3 = (data) => {
 
       // Update lollipop
       lollipops
-        .attr('cy', d => y(d.location))
+        .attr('cy', d => y(d.location) + y.bandwidth() / 2)
         .transition().duration(500)
           .attr('cx', d => x(d[currentColumn]));
 
@@ -129,7 +133,7 @@ const setScales = (data) => {
   x.domain([0, xMax]).rangeRound([0, width]).nice();
 
   // Create Y Axis
-  y.domain(yMax).range([ 0, height]);
+  y.domain(yMax).rangeRound([ 0, height]);
 };
 
 

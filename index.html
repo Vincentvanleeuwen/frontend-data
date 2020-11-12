@@ -11,9 +11,30 @@
         href="style.css">
 </head>
 <body>
+  <form id="form">
+    Change X Axis
+    <fieldset>
 
-  <button type="button" id="transition-column">Parking Spots</button>
-  <button type="button" id="transition-type">Cities</button>
+      <label for="parking">
+        <input id="parking" type="radio" name="column" value="Parking Spots" checked>
+      </label>
+      <label for="charging">
+        <input id="charging" type="radio" name="column" value="Charging Points">
+      </label>
+    </fieldset>
+    Change Y Axis
+    <fieldset>
+
+      <label for="cities">
+        <input id="cities" type="radio" name="type" value="Cities" checked>Cities
+      </label>
+      <label for="towns">
+        <input id="towns" type="radio" name="type" value="Towns">Towns
+      </label>
+    </fieldset>
+
+  </form>
+
   <svg id="graph-container"></svg>
   <script src="main.js"></script>
 </body>
