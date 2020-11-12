@@ -55,7 +55,7 @@ Navigate to the desired directory in your terminal. Once you've reached the dire
 ```
 
 ## Live Preview
-
+https://vincentvanleeuwen.github.io/frontend-data/
 
 ## Sources
 
