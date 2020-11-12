@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "node main.js",
-    "start": "parcel serve index.html"
+    "start": "parcel serve index.html",
+    "build": "parcel index.html"
   },
   "repository": {
     "type": "git",
