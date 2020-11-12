@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime';
+// import 'regenerator-runtime/runtime';
 import { fetchAllData } from "./helpers/fetchData.js";
 import {
   mapDataSets,
