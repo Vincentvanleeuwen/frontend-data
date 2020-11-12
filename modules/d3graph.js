@@ -43,30 +43,6 @@ export const passDataToD3 = (data) => {
       updateGraph('y', graphContainer, currentType, data);
     });
 
-    // Change from parking spots to charging points
-    select('#transition-column').on('click', () => {
-      if (columnButton.innerHTML !== 'Charging Points') {
-        columnButton.innerHTML = 'Charging Points';
-
-      } else {
-        columnButton.innerHTML = 'Parking Spots';
-        currentColumn = 'capacity';
-      }
-      updateGraph('x', graphContainer, currentColumn, data);
-    });
-
-    // Change from cities to towns
-    select('#transition-type').on('click', () => {
-      if (typeButton.innerHTML !== 'Towns') {
-        typeButton.innerHTML = 'Towns';
-        currentType = 'town';
-      } else {
-        typeButton.innerHTML = 'Cities';
-        currentType = 'city';
-      }
-      updateGraph('y', graphContainer, currentType, data);
-    });
-
     const updateGraph = (axis, target, newSet, data) => {
 
       // Get axis, lollipops and lollisticks svgs

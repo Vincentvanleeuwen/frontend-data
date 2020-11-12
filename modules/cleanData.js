@@ -153,7 +153,6 @@ export const changeToPlaceName = (data) => {
 };
 
 export const restructureDataSets = (arr) => {
-  console.log(arr);
 
   return arr.reduce((acc, cur) => {
 
