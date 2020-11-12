@@ -1,7 +1,12 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 svg {
   display: inline-block;
   position: relative;
-  width: 90%;
+  width: 600px;
   padding-bottom: 100%;
   vertical-align: top;
   overflow: hidden;

@@ -34,12 +34,12 @@ export const passDataToD3 = (data) => {
     addAxisToContainer(graphContainer);
     createLollipops(graphContainer, data);
 
-    select('body').selectAll((`input[name='column']`)).on('change', () => {
-      this.value === 'Charging Points' ? currentColumn = 'chargingPointCapacity' : currentColumn = 'capacity';
+    select('body').selectAll((`input[name='column']`)).on('change', (e) => {
+      e.currentTarget.value === 'Charging Points' ? currentColumn = 'chargingPointCapacity' : currentColumn = 'capacity';
       updateGraph('x', graphContainer, currentColumn, data);
     });
-    select('body').selectAll((`input[name='type']`)).on('change', () => {
-      this.value === 'Towns' ? currentType = 'town' : currentType = 'city';
+    select('body').selectAll((`input[name='type']`)).on('change', (e) => {
+      e.currentTarget.value === 'Towns' ? currentType = 'town' : currentType = 'city';
       updateGraph('y', graphContainer, currentType, data);
     });
 
