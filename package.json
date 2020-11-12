@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node main.js",
     "start": "parcel serve index.html",
-    "build": "parcel index.html"
+    "build": "parcel build index.html"
   },
   "repository": {
     "type": "git",
